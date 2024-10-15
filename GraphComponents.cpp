@@ -14,6 +14,7 @@ EdgeList::~EdgeList(){
 
 bool EdgeList::isEmpty(){
     return count == 0;
+    //ελέγχω αν η λίστα είναι άδεια
 }
 
 void EdgeList::insertNode(Edge &edge){
