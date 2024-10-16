@@ -1,6 +1,9 @@
 #pragma once
 
 #include <iostream>
+#include <string.h>
+#include <string>
+#include <cstring>
 
 
 using namespace std;
@@ -19,9 +22,6 @@ struct Date{
     }
 };
 
-Date::~Date() {
-    // No dynamic memory to delete
-}
 
 struct Edge{
     double amount;
@@ -33,9 +33,7 @@ struct Edge{
         this->date = new Date(date.day, date.month, date.year);
         this->node = node;
     }
-    ~Edge(){
-        delete date;
-    }
+    ~Edge();
 
 };
 
@@ -50,9 +48,7 @@ struct EdgeListNode{
         this->prev = NULL;
     }
 
-    ~EdgeListNode(){
-        delete edge;
-    }
+    ~EdgeListNode();
 
 };
 
@@ -61,51 +57,73 @@ struct EdgeList{
     EdgeListNode* head;
     EdgeListNode* tail;
 
-    EdgeList(){
+    EdgeList(){             // default constructor
         this->count = 0;
         this->head = NULL;
         this->tail = NULL;
     }
 
-    ~EdgeList(){
-    EdgeListNode* current = head;
-        while (current != NULL) {
-            EdgeListNode* temp = current;
-            current = current->next;
-            delete temp;
-        }
-    }
+    ~EdgeList();
+    
 
     // Έλεγχος αν η λίστα είναι άδεια
     bool isEmpty();
 
 
     // Εισαγωγή νέου κόμβου (Edge) στη λίστα
-    void insertNode(Edge &edge) {
-        EdgeListNode* newNode = new EdgeListNode(edge);
-
-        if (isEmpty()) {
-            head = newNode;
-            tail = newNode;
-        } else {
-            tail->next = newNode;
-            newNode->prev = tail;
-            tail = newNode;
-        }
-        count++;
-    }
+    void insertNode(Edge &edge);
 
     // Εκτύπωση της λίστας ακμών
-    void printList(){
-            EdgeListNode* current = head;
-            while (current != NULL) {
-                // Amount: "amoount"
-                // Date: "day/month/year"
-                cout << "Amount: " << current->edge->amount
-                    << " Date: " << current->edge->date->day << "/"
-                    << current->edge->date->month << "/"
-                    << current->edge->date->year << endl;
-                current = current->next;
-            }
-    }
+    void printList();       // Δήλωση της printList 
 };
+
+
+struct GraphNode{
+    char id[100];
+    EdgeList in;
+    EdgeList out;
+
+    GraphNode(char* id){
+        strcpy(this->id, id);  // copying argument id to class member id
+    }
+
+    void insertInEdge(Edge &edge);
+    void insertOutEdge(Edge &edge);
+};
+
+
+struct GraphNodeListNode{
+    GraphNode* graphnode;
+    GraphNodeListNode* next;
+    GraphNodeListNode* prev;
+
+    GraphNodeListNode(char* id);
+
+    ~GraphNodeListNode();
+};
+
+
+struct GraphNodeList{
+    int count;
+    GraphNodeListNode* head;
+    GraphNodeListNode* tail;
+
+    GraphNodeList(){             // default constructor
+        this->count = 0;
+        this->head = NULL;
+        this->tail = NULL;
+    }
+
+    ~GraphNodeList();
+    
+
+    // Έλεγχος αν η λίστα είναι άδεια
+    bool isEmpty();
+
+    // Εισαγωγή νέου κόμβου (Edge) στη λίστα
+    GraphNodeListNode* insertNode(char* id);
+
+    // Εκτύπωση της λίστας ακμών
+    void printList();       // Δήλωση της printList 
+};
+

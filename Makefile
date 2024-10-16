@@ -5,11 +5,11 @@ CXX = g++
 CXXFLAGS = -Wall -std=c++11
 
 # Το όνομα του τελικού εκτελέσιμου αρχείου
-TARGET = GraphComponents
+TARGET = miris
 
 # Τα αρχεία πηγαίου κώδικα (.cpp) που χρησιμοποιούνται
-SRCS = GraphComponents.cpp
-HEADERS = GraphComponents.h  # Το αρχείο .h που θέλουμε να παρακολουθούμε
+SRCS = GraphComponents.cpp Graph.cpp Demo.cpp
+HEADERS = GraphComponents.h Graph.h Demo.h # Το αρχείο .h που θέλουμε να παρακολουθούμε
 
 # Τα αρχεία αντικειμένων (.o) που θα παραχθούν από το compile
 OBJS = $(SRCS:.cpp=.o)
