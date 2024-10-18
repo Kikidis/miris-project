@@ -127,3 +127,46 @@ struct GraphNodeList{
     void printList();       // Δήλωση της printList 
 };
 
+
+struct HashListNode{                // Ο κόμβος λίστας στον πίνακα κατακερματισμού
+    GraphNodeListNode* gnlnode;
+    HashListNode* prev;
+    HashListNode* next;
+
+    HashListNode(GraphNodeListNode* gnlnode){
+        this->gnlnode = gnlnode;
+        this->next = NULL;
+        this->prev = NULL;
+    }
+};
+
+struct HashList{                // Οι λίστες που υπάρχουν σε κάθε θέση του πίνακα κατακερματισμού
+    int count;
+    HashListNode* head;
+    HashListNode* tail;
+
+    HashList(){
+        this->count = 0;
+        this->head = NULL;
+        this->tail = NULL; 
+    }
+
+    ~HashList();
+
+    bool isEmpty();
+
+    void insertNode(GraphNodeListNode* gnlnode);
+};
+
+struct  HashTable{
+    int size;
+    HashList* hashtable;
+
+    HashTable(int size);
+
+    void insertNodeaddr(char* id, GraphNodeListNode* gnln);
+
+    int universalHashingString(char *str);
+
+    ~HashTable();
+};

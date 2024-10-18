@@ -117,4 +117,64 @@ void GraphNodeList::printList(){
         cout << "ID : " << current->graphnode->id << endl;
         current = current->next;
     }
-}     
+}    
+
+
+HashList::~HashList(){
+    HashListNode* current = head;
+    while (current != NULL) {
+        HashListNode* temp = current;
+        current = current->next;
+        delete temp;
+    }
+}
+
+bool HashList::isEmpty(){
+    return count == 0;
+}
+
+void HashList::insertNode(GraphNodeListNode* gnlnode){
+    HashListNode* newNode = new HashListNode(gnlnode);
+
+    if (isEmpty()) {
+        head = newNode;
+        tail = newNode;
+    } else {
+        tail->next = newNode;
+        newNode->prev = tail;
+        tail = newNode;
+    }
+    count++;
+}
+
+
+HashTable::HashTable(int size){
+    this->size = size;                          // Ορίζω το μέγεθος του πίνακα
+    this->hashtable = new HashList[size];       // Δημιουργούμε τον πίνακα με τις λίστες
+}
+
+HashTable::~HashTable(){
+    delete [] hashtable;
+}
+
+void HashTable::insertNodeaddr(char* id, GraphNodeListNode* gnln){
+    int position  = universalHashingString(id);
+    hashtable[position].insertNode(gnln);
+}
+
+int HashTable::universalHashingString(char *str)
+{
+	int h =0;
+	// parameter a
+	int a =6;
+	// 1000th prime number
+	int p = 7919;
+	// universal hashing for strings
+	int i =0;
+	while ( str[i] != '\0')
+	{
+		h = (h*a + str[i]) % p;
+		i++;
+	}
+	return (h % size)+1;        // Επιστρεύει την θέση που θα τοποθετιθεί το GraphNodeListNode
+}

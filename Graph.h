@@ -10,6 +10,14 @@
 using namespace std;
 
 struct Graph{
-    GraphNodeList graphlist;
+    GraphNodeList* graphlist;
+    HashTable* hashtable;
+
+    Graph(int size);
+
+    void insertNode(char* id);
+
+    ~Graph();
 };
+
 

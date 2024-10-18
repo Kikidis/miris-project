@@ -23,29 +23,32 @@ int main(){
 
 
 
-    char buffer[N];
-// apo edw arxizei h allhlepidrash me ton xrhsth
-// katharizw to buffer apo thn prohgoumenh xrhsh
-memset(buffer,0,N);
-printf("Dwse Entolh: ");
-    char ch = getchar();
-    while (ch != EOF) {
-        switch (ch) {
-                case '\n':
-                strncat(buffer, ((char*) &ch), 1);
-                SendCommand(buffer);
-            }
-                    // katharizoume to buffer apo thn prohgoumenh xrhsh
-            memset(buffer,0,N);
-            printf("Dwse Entolh: ");
-                    break;
-                default:
-                    strncat(buffer, ((char*) &ch), 1);
-                    break;
-        }
-        ch = getchar();
+    Graph graph(1013);
+    
+
+
+
+//     char buffer[N];
+// // apo edw arxizei h allhlepidrash me ton xrhsth
+// // katharizw to buffer apo thn prohgoumenh xrhsh
+// memset(buffer,0,N);
+// printf("Dwse Entolh: ");
+//     char ch = getchar();
+//     while (ch != EOF) {
+//         switch (ch) {
+//                 case '\n':
+//                 strncat(buffer, ((char*) &ch), 1);
+//                 SendCommand(buffer);
+//             }
+//                     // katharizoume to buffer apo thn prohgoumenh xrhsh
+//             memset(buffer,0,N);
+//             printf("Dwse Entolh: ");
+//                     break;
+//                 default:
+//                     strncat(buffer, ((char*) &ch), 1);
+//                     break;
+//         }
+//         ch = getchar();
 }
 
 //na kanw to parssing sto cmd apo ton buffer
-
-//Παρασκευη 17:00-19:00
