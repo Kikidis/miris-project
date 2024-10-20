@@ -162,7 +162,7 @@ void HashTable::insertNodeaddr(char* id, GraphNodeListNode* gnln){
     hashtable[position].insertNode(gnln);
 }
 
-int HashTable::universalHashingString(char *str)
+int HashTable::universalHashingString(char *str)            // Universal Hasing String
 {
 	int h =0;
 	// parameter a
