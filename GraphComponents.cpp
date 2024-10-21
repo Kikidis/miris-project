@@ -148,6 +148,19 @@ void HashList::insertNode(GraphNodeListNode* gnlnode){
 }
 
 
+// Ψαχνει να βρει μεσα στο ΗashList αν υπαρχει κομβος με το συγκεκριμενο id
+GraphNodeListNode* HashList::getGraphNode(char* id){
+    HashListNode* current = head;
+    while(current){
+        if (!strcmp(current->gnlnode->graphnode->id, id)){
+            return current->gnlnode;
+        }
+        current = current->next;
+    }
+    return NULL;
+}
+
+
 HashTable::HashTable(int size){
     this->size = size;                          // Ορίζω το μέγεθος του πίνακα
     this->hashtable = new HashList[size];       // Δημιουργούμε τον πίνακα με τις λίστες
@@ -177,4 +190,9 @@ int HashTable::universalHashingString(char *str)            // Universal Hasing 
 		i++;
 	}
 	return (h % size)+1;        // Επιστρεύει την θέση που θα τοποθετιθεί το GraphNodeListNode
+}
+
+GraphNodeListNode* HashTable::getGraphNode(char* id){
+    int position  = universalHashingString(id);
+    return hashtable[position].getGraphNode(id);
 }

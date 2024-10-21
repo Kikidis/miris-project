@@ -13,5 +13,10 @@ Graph::~Graph(){
 }
 
 void Graph::insertNode(char* id){
-    GraphNodeListNode* gnln = graphlist->insertNode(id);
+    if(hashtable->getGraphNode(id) == NULL){
+        GraphNodeListNode* gnln = graphlist->insertNode(id);          // εισαγει εναν νεο κομβο στον  γραφο
+        hashtable->insertNodeaddr(id, gnln);
+    }
+    else
+        cout << "ID already existed "<< id << endl;
 }

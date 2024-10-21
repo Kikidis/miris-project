@@ -151,11 +151,14 @@ struct HashList{                // Οι λίστες που υπάρχουν σ�
         this->tail = NULL; 
     }
 
-    ~HashList();
-
     bool isEmpty();
 
     void insertNode(GraphNodeListNode* gnlnode);
+    
+    GraphNodeListNode* getGraphNode(char* id);
+
+    ~HashList();
+
 };
 
 struct  HashTable{
@@ -167,6 +170,8 @@ struct  HashTable{
     void insertNodeaddr(char* id, GraphNodeListNode* gnln);
 
     int universalHashingString(char *str);
+
+    GraphNodeListNode* getGraphNode(char* id);
 
     ~HashTable();
 };

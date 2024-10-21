@@ -1,30 +1,33 @@
 #include "Demo.h"
-#define N 1000  // μέγεθος του buffer
 
-// Πρωτότυπο της συνάρτησης για το parsing
-void parseCommand(char *command);
 
 
 // Συνάρτηση που αποστέλλει την εντολή προς εκτέλεση
-void SendCommand(char *buffer) {
+void SendCommand(char *buffer, Graph &graph) {
     printf("Executing command: %s\n", buffer);
-    parseCommand(buffer);
+    parseCommand(buffer, graph);
 }
 
-
 // Συνάρτηση που κάνει parsing 
-void parseCommand(char *command) {
+void parseCommand(char *command, Graph &graph) {
     char cmd[10];
+    char* tok;
     // Παίρνουμε το πρώτο στοιχείο της εντολής (π.χ. i, n, d, l, κλπ)
     sscanf(command, "%s", cmd);
 
+    // Εδώ θα κάνεις την επεξεργασία για την εντολή εισαγωγής κόμβου,1
     if (strcmp(cmd, "i") == 0) {
-        cout<<("Insert command detected.\n");
-        // Εδώ θα κάνεις την επεξεργασία για την εντολή εισαγωγής κόμβου,1
+        tok = strtok(command, (char*) " ");         // tok δειχνει στο i
+        tok = strtok(NULL, (char*) " ");            // tok δειχνει στο πρωτο ID
+        while(tok != NULL){
+            graph.insertNode(tok);          // εισαγει εναν νεο κομβο στον  γραφο
+            tok = strtok(NULL, (char*)" ");        // παιρνω το επομενο αλφαριθμητικο αν υπαρχει
+        }
+        graph.graphlist->printList();
     }
-    else if (strcmp(cmd, "n") == 0) {
+    else if (strcmp(cmd, "n") == 0) {   // Εδώ θα κάνεις την επεξεργασία για την εντολή εισαγωγής ακμής,2
         cout<<("Insert edge command detected.\n");
-        // Εδώ θα κάνεις την επεξεργασία για την εντολή εισαγωγής ακμής,2
+        
     } else if (strcmp(cmd, "d") == 0) {  // Εντολή διαγραφής κόμβου,3
         // Διαγραφή κόμβων
     } else if (strcmp(cmd, "l") == 0) {  // Εντολή διαγραφής ακμής,4
@@ -41,7 +44,7 @@ void parseCommand(char *command) {
     // Εύρεση απλών κύκλων
     } else if (strcmp(cmd, "t") == 0) {  // Εντολή εντοπισμού ροών,10
         // Εντοπισμός ροών ποσών
-    } else if (strcmp(cmd, "O") == 0) {  // Εντολή ανίχνευσης κύκλου,11
+    } else if (strcmp(cmd, "o") == 0) {  // Εντολή ανίχνευσης κύκλου,11
         // Εύρεση απλών κύκλων
     } else if (strcmp(cmd, "e") == 0) {  // Εντολή τερματισμού,12
         cout<<("Terminating program.\n");
@@ -50,24 +53,29 @@ void parseCommand(char *command) {
 }
 
 int main(){
-    EdgeList edgelist;
-    Date d(30,9,2001);
-    Edge edge(400,d,NULL);
-    edgelist.insertNode(edge);
-    edgelist.insertNode(edge);
-    edgelist.insertNode(edge);
-    edgelist.insertNode(edge);
-    edgelist.printList();
+    // EdgeList edgelist;
+    // Date d(30,9,2001);
+    // Edge edge(400,d,NULL);
+    // edgelist.insertNode(edge);
+    // edgelist.insertNode(edge);
+    // edgelist.insertNode(edge);
+    // edgelist.insertNode(edge);
+    // edgelist.printList();
 
 
-    GraphNodeList gr;
-    gr.insertNode((char*) "A180");
-    gr.insertNode((char*) "A200");
-    gr.insertNode((char*) "A220");
-    gr.printList();
+    // GraphNodeList gr;
+    // gr.insertNode((char*) "A180");
+    // gr.insertNode((char*) "A200");
+    // gr.insertNode((char*) "A220");
+    // gr.printList();
 
 
-    //Graph graph(1013);
+    Graph graph(1013);
+    // graph.insertNode((char*) "A200");
+    // graph.insertNode((char*) "C63");
+    // graph.insertNode((char*) "F40");
+    // graph.graphlist->printList();
+
 
     char buffer[N];
     memset(buffer,0,N);
@@ -80,7 +88,7 @@ int main(){
         while (ch != EOF) {
             switch (ch) {
                 case '\n':                  // Αν το πλήκτρο Enter πατηθεί
-                    SendCommand(buffer);
+                    SendCommand(buffer, graph);
                     memset(buffer,0,N);         // Καθαρισμός του buffer για την επόμενη εντολή
                     printf("Dwse Entolh: ");
                     strncat(buffer, ((char*) &ch), 1);
