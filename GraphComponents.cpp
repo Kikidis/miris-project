@@ -38,6 +38,54 @@ void EdgeList::insertNode(Edge &edge) {
     count++;
 }
 
+// Διαγραφει απο την λιστα τον κομβο που παιρνει ως ορισμα και επιστρεφει τον επομενο του
+EdgeListNode* EdgeList::removeNode(EdgeListNode* node){
+    if(isEmpty()){
+        return NULL;
+    }
+    if (count == 1){            // Ο Node ειναι head και tail
+        head = tail = NULL;
+        count = 0;
+        delete node;
+        return NULL;
+    }
+    else if(node == head){        // ο Node ειναι ο πρωτος κομβος
+        head = head->next;
+        count--;
+        node->next->prev = NULL;    // Το prev του επομενου κομβου του node να ειναι NULL αφου θα ειναι ο πρωτος κομβος
+        delete node;
+        return head;
+    }
+    else if(node == tail){
+        node->prev->next = NULL;    // Το next του προηγουμενου κομβου θα ειναι NULL αφου θα ειναι ο τελευταιος κομβος
+        tail = tail->prev;
+        count--;
+        delete node;
+        return tail;
+    }
+    else{   // γενικη περιπρωση το node βρισκεται καπου μεσα στην λιστα
+        node->prev->next = node->next; // Το next του προηγουμενου του Node Να δειχνει στον επομενο του Node
+        node->next->prev = node->prev;
+        count--;
+        EdgeListNode* next = node->next;
+        delete node;
+        return next;
+    }
+
+}
+
+
+void EdgeList::removeNodes(GraphNode* gn){
+    EdgeListNode* current = head;
+    while (current != NULL){
+        if(current->edge->node == gn){
+            current = removeNode(current);
+        }
+        else
+            current = current->next; 
+    }
+}
+
 // Εκτύπωση της λίστας ακμών
 void EdgeList::printList(){
         EdgeListNode* current = head;
@@ -45,8 +93,8 @@ void EdgeList::printList(){
             // Amount: "amoount"
             // Date: "day/month/year"
             cout << "Amount: " << current->edge->amount
-                << " Date: " << current->edge->date->day << "/"
-                << current->edge->date->month << "/"
+                << " Date: " << current->edge->date->day << "-"
+                << current->edge->date->month << "-"
                 << current->edge->date->year << endl;
             current = current->next;
         }
@@ -83,7 +131,37 @@ GraphNodeList::~GraphNodeList(){
         delete temp;
     }
 }
-    
+
+
+void GraphNodeList::deleteNode(GraphNodeListNode* node){
+    if(isEmpty()){
+        return;
+    }
+    if (count == 1){            // Ο Node ειναι head και tail
+        head = tail = NULL;
+        count = 0;
+        delete node; 
+    }
+    else if(node == head){        // ο Node ειναι ο πρωτος κομβος
+        head = head->next;
+        count--;
+        node->next->prev = NULL;    // Το prev του επομενου κομβου του node να ειναι NULL αφου θα ειναι ο πρωτος κομβος
+        delete node;
+    }
+    else if(node == tail){
+        node->prev->next = NULL;    // Το next του προηγουμενου κομβου θα ειναι NULL αφου θα ειναι ο τελευταιος κομβος
+        tail = tail->prev;
+        count--;
+        delete node;
+    }
+    else{   // γενικη περιπρωση το node βρισκεται καπου μεσα στην λιστα
+        node->prev->next = node->next; // Το next του προηγουμενου του Node Να δειχνει στον επομενο του Node
+        node->next->prev = node->prev;
+        count--;
+        delete node;
+
+    }
+}
 
 // Έλεγχος αν η λίστα είναι άδεια
 bool GraphNodeList::isEmpty(){

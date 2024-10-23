@@ -73,6 +73,10 @@ struct EdgeList{
     // Εισαγωγή νέου κόμβου (Edge) στη λίστα
     void insertNode(Edge &edge);
 
+    EdgeListNode* removeNode(EdgeListNode*);
+
+    void removeNodes(GraphNode*);       // διαγραφει τους κομβους που περιεχουν ακμες με συγκεκριμενο GraphNode*
+
     // Εκτύπωση της λίστας ακμών
     void printList();       // Δήλωση της printList 
 };
@@ -122,6 +126,9 @@ struct GraphNodeList{
 
     // Εισαγωγή νέου κόμβου (Edge) στη λίστα
     GraphNodeListNode* insertNode(char* id);
+
+    // διαγραφει τον κομβο που του δινουμε σαν ορισμα
+    void deleteNode(GraphNodeListNode* node);
 
     // Εκτύπωση της λίστας ακμών
     void printList();       // Δήλωση της printList 

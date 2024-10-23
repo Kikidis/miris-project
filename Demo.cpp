@@ -12,6 +12,10 @@ void SendCommand(char *buffer, Graph &graph) {
 void parseCommand(char *command, Graph &graph) {
     char cmd[10];
     char* tok;
+    char fromNode[100], toNode[100];
+    double sum;
+    int day, month, year;
+    
     // Παίρνουμε το πρώτο στοιχείο της εντολής (π.χ. i, n, d, l, κλπ)
     sscanf(command, "%s", cmd);
 
@@ -26,26 +30,54 @@ void parseCommand(char *command, Graph &graph) {
         graph.graphlist->printList();
     }
     else if (strcmp(cmd, "n") == 0) {   // Εδώ θα κάνεις την επεξεργασία για την εντολή εισαγωγής ακμής,2
-        cout<<("Insert edge command detected.\n");
-        
-    } else if (strcmp(cmd, "d") == 0) {  // Εντολή διαγραφής κόμβου,3
-        // Διαγραφή κόμβων
+        tok = strtok(command, (char*) " ");         // tok δειχνει στο n
+        tok = strtok(NULL, (char*) " ");         // tok δειχνει στο πρωτο ID out
+        strcpy(fromNode, tok);
+        graph.insertNode(fromNode);                 // Αν δεν υπαρχει θα μπει, αλλιως τιποτα
+
+        tok = strtok(NULL, (char*) " ");         // tok δειχνει στο δευτερο ID in
+        strcpy(toNode, tok);
+        graph.insertNode(toNode);
+
+        tok = strtok(NULL, (char*) " ");     // tok δειχνει στο sum
+        sum = atof(tok);
+
+        tok = strtok(NULL, (char*)"-");        // παιρνω το επομενο αλφαριθμητικο year
+        year = atoi(tok);
+
+        tok = strtok(NULL, (char*) "-");   //παιρνω το month
+        month = atoi(tok);
+
+        tok = strtok(NULL,(char*) " \n");     //παιρνω το day
+        day= atoi(tok);
+
+        graph.insertEdge(toNode, fromNode, sum , day, month, year);
+
+} else if (strcmp(cmd, "d") == 0) {  // Εντολή διαγραφής κόμβου,3
+        tok = strtok(command, (char*) " ");         // tok δειχνει στο d
     } else if (strcmp(cmd, "l") == 0) {  // Εντολή διαγραφής ακμής,4
         // Διαγραφή ακμής
+        tok = strtok(command, (char*) " ");         // tok δειχνει στο l
     } else if (strcmp(cmd, "m") == 0) {  // Εντολή τροποποίησης ακμής,5
         // Τροποποίηση ακμής
+        tok = strtok(command, (char*) " ");         // tok δειχνει στο m
     } else if (strcmp(cmd, "f") == 0) {  // Εντολή εύρεσης εξερχόμενων συναλλαγών,6
         // Παρουσίαση εξερχόμενων δοσοληψιών
     } else if (strcmp(cmd, "r") == 0) {  // Εντολή εύρεσης εισερχόμενων συναλλαγών,7
         // Παρουσίαση εισερχόμενων δοσοληψιών
+        tok = strtok(command, (char*) " ");         // tok δειχνει στο r
     } else if (strcmp(cmd, "c") == 0) {  // Εντολή ανίχνευσης κύκλου,8
         // Εύρεση απλών κύκλων
+        tok = strtok(command, (char*) " ");         // tok δειχνει στο c
     } else if (strcmp(cmd, "N") == 0) {  // Εντολή ανίχνευσης κύκλου,9
     // Εύρεση απλών κύκλων
+    tok = strtok(command, (char*) " ");         // tok δειχνει στο N
     } else if (strcmp(cmd, "t") == 0) {  // Εντολή εντοπισμού ροών,10
         // Εντοπισμός ροών ποσών
+        tok = strtok(command, (char*) " ");         // tok δειχνει στο t
     } else if (strcmp(cmd, "o") == 0) {  // Εντολή ανίχνευσης κύκλου,11
         // Εύρεση απλών κύκλων
+        tok = strtok(command, (char*) " ");         // tok δειχνει στο o
     } else if (strcmp(cmd, "e") == 0) {  // Εντολή τερματισμού,12
         cout<<("Terminating program.\n");
         exit(0);

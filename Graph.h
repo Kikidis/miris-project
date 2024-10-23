@@ -17,6 +17,10 @@ struct Graph{
 
     void insertNode(char* id);
 
+    void insertEdge(char* to, char* from, double sum, int year, int month, int day);
+
+    void deleteGraphNode(char* id);
+
     ~Graph();
 };
 
