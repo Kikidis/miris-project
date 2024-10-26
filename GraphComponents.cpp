@@ -87,18 +87,34 @@ void EdgeList::removeNodes(GraphNode* gn){
 }
 
 // Εκτύπωση της λίστας ακμών
-void EdgeList::printList(){
+void EdgeList::printListOut(char* idfromnode){
         EdgeListNode* current = head;
         while (current != NULL) {
             // Amount: "amoount"
             // Date: "day/month/year"
-            cout << "Amount: " << current->edge->amount
-                << " Date: " << current->edge->date->day << "-"
-                << current->edge->date->month << "-"
-                << current->edge->date->year << endl;
+            cout << idfromnode << " "<< current->edge->node->id<< " " 
+            << current->edge->amount<< " "
+            << current->edge->date->day << "-"
+            << current->edge->date->month << "-"
+            << current->edge->date->year << endl;
             current = current->next;
         }
 }
+
+void EdgeList::printListIn(char* idtonode){
+        EdgeListNode* current = head;
+        while (current != NULL) {
+            // Amount: "amoount"
+            // Date: "day/month/year"
+            cout << current->edge->node->id<< " " << idtonode << " "
+            << current->edge->amount<< " "
+            << current->edge->date->day << "-"
+            << current->edge->date->month << "-"
+            << current->edge->date->year << endl;
+            current = current->next;
+        }
+}
+
 
 
 // Εισαγωγή εισερχόμενης ακμής στον κόμβο

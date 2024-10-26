@@ -1,10 +1,57 @@
 #include "Demo.h"
 
 
+bool isIllegalcmdargs(int argc, char* argv[]){
+    int i, input = 0, output = 0;
+    if (argc<5){
+        return true;
+    }
+    for (i = 1; i < argc; i+=2){
+        if(strcmp(argv[i],"-i") == 0){
+            input ++;
+        }
+        else if(strcmp(argv[i], "-o") == 0){
+            output ++;
+        }
+    }
+    if(input != 1 || output != 1){
+        return true;
+    }
+    else    
+        return false;
+}
+
+
+void insertEdge(char* buffer, Graph &graph){
+    char* tok;
+    char fromNode[100], toNode[100];
+    double sum;
+    int day, month, year;
+
+    //2 3 3900 2024-04-06
+
+    tok = strtok(buffer, (char*) " ");  // tok δειχνει στον κομβο 2
+    strcpy(fromNode,tok);
+    graph.insertNode(fromNode);
+    tok = strtok(NULL, (char*) " ");  // tok δειχνει στον κομβο 3
+    strcpy(toNode,tok);
+    graph.insertNode(toNode);
+    tok = strtok(NULL, (char*) " ");  // tok δειχνει στο ποσο
+    sum = atof(tok);
+    tok = strtok(NULL, (char*)"-");    // tok δειχνει στο επομενο αλφαριθμητικο year
+    year = atoi(tok);
+    tok = strtok(NULL, (char*) "-");   // tok δειχνει στο month
+    month = atoi(tok);
+    tok = strtok(NULL,(char*) " \n");     // tok δειχνει στο day
+    day= atoi(tok);
+
+    graph.insertEdge(toNode, fromNode, sum, day, month, year);
+}
+
 
 // Συνάρτηση που αποστέλλει την εντολή προς εκτέλεση
 void SendCommand(char *buffer, Graph &graph) {
-    printf("Executing command: %s\n", buffer);
+    //printf("Executing command: %s\n", buffer);
     parseCommand(buffer, graph);
 }
 
@@ -27,7 +74,7 @@ void parseCommand(char *command, Graph &graph) {
             graph.insertNode(tok);          // εισαγει εναν νεο κομβο στον  γραφο
             tok = strtok(NULL, (char*)" ");        // παιρνω το επομενο αλφαριθμητικο αν υπαρχει
         }
-        graph.graphlist->printList();
+        //graph.graphlist->printList();
     }
     else if (strcmp(cmd, "n") == 0) {   // Εδώ θα κάνεις την επεξεργασία για την εντολή εισαγωγής ακμής,2
         tok = strtok(command, (char*) " ");         // tok δειχνει στο n
@@ -53,8 +100,13 @@ void parseCommand(char *command, Graph &graph) {
 
         graph.insertEdge(toNode, fromNode, sum , day, month, year);
 
-} else if (strcmp(cmd, "d") == 0) {  // Εντολή διαγραφής κόμβου,3
+    } else if (strcmp(cmd, "d") == 0) {  // Εντολή διαγραφής κόμβου,3
         tok = strtok(command, (char*) " ");         // tok δειχνει στο d
+        tok = strtok(NULL, (char*) " ");
+        while(tok != NULL){
+            graph.deleteGraphNode(tok);          // διαγραφει  κομβο στον  γραφο
+            tok = strtok(NULL, (char*)" ");        // παιρνω το επομενο αλφαριθμητικο αν υπαρχει
+        }
     } else if (strcmp(cmd, "l") == 0) {  // Εντολή διαγραφής ακμής,4
         // Διαγραφή ακμής
         tok = strtok(command, (char*) " ");         // tok δειχνει στο l
@@ -63,9 +115,17 @@ void parseCommand(char *command, Graph &graph) {
         tok = strtok(command, (char*) " ");         // tok δειχνει στο m
     } else if (strcmp(cmd, "f") == 0) {  // Εντολή εύρεσης εξερχόμενων συναλλαγών,6
         // Παρουσίαση εξερχόμενων δοσοληψιών
+        tok = strtok(command, (char*) " ");         // tok δειχνει στο f
+        tok = strtok(NULL, (char*) " ");         // tok δειχνει στο πρωτο ID out
+        strcpy(fromNode, tok);
+        graph.printAllOutEdges(fromNode);
+
     } else if (strcmp(cmd, "r") == 0) {  // Εντολή εύρεσης εισερχόμενων συναλλαγών,7
         // Παρουσίαση εισερχόμενων δοσοληψιών
         tok = strtok(command, (char*) " ");         // tok δειχνει στο r
+        tok = strtok(NULL, (char*) " ");         // tok δειχνει στο πρωτο ID out
+        strcpy(toNode, tok);
+        graph.printAllInEdges(toNode);
     } else if (strcmp(cmd, "c") == 0) {  // Εντολή ανίχνευσης κύκλου,8
         // Εύρεση απλών κύκλων
         tok = strtok(command, (char*) " ");         // tok δειχνει στο c
@@ -84,37 +144,48 @@ void parseCommand(char *command, Graph &graph) {
     }
 }
 
-int main(){
-    // EdgeList edgelist;
-    // Date d(30,9,2001);
-    // Edge edge(400,d,NULL);
-    // edgelist.insertNode(edge);
-    // edgelist.insertNode(edge);
-    // edgelist.insertNode(edge);
-    // edgelist.insertNode(edge);
-    // edgelist.printList();
+int main(int argc, char* argv[]){
 
-
-    // GraphNodeList gr;
-    // gr.insertNode((char*) "A180");
-    // gr.insertNode((char*) "A200");
-    // gr.insertNode((char*) "A220");
-    // gr.printList();
-
-
-    Graph graph(1013);
-    // graph.insertNode((char*) "A200");
-    // graph.insertNode((char*) "C63");
-    // graph.insertNode((char*) "F40");
-    // graph.graphlist->printList();
-
-
+    int i;
+    char inputFile[100], outputFile[100];
     char buffer[N];
-    memset(buffer,0,N);
+    FILE* file;
 
+    if(isIllegalcmdargs(argc, argv)){
+        cout << "Arguments in cmd are wrong, try again.." << endl;
+        return 1;    
+    }
+
+    for(i=1; i < argc; i+=2){
+        if(strcmp(argv[i],"-i") == 0){
+            strcpy(inputFile, argv[i+1]);
+        }
+        else if(strcmp(argv[i], "-o") == 0){
+            strcpy(outputFile, argv[i+1]);
+        }
+    } 
+    // Μεχρι εδω τα ορισματα ειναι σωστα και εχουμε τα ονοματα των αρχειων που μας δινει ο χρηστης
+    // Δημιουργουμε τον γραφο και τον γεμιζουμε με τα στοιχεια του inputFile 
+    Graph graph(1013);      // βαζω πρωτο αριθμο για καλυτερη διασπορα στο HashTable
+
+    file = fopen(inputFile, "r"); // Ανοιγω το αρχειο για αναγνωση
+    if(file != NULL){
+        while(fgets(buffer, sizeof(buffer), file)){
+            insertEdge(buffer, graph);
+            memset(buffer,0,N); 
+        }
+        fclose(file);
+    }
+    else{
+        cout << "Unable to open the file, exiting.. " << endl;
+        return 1;
+    }
+
+    memset(buffer,0,N);
+   
     // apo edw arxizei h allhlepidrash me ton xrhsth
     // katharizw to buffer apo thn prohgoumenh xrhsh
-    printf("Dwse Entolh: ");
+    printf("Give command: ");
     char ch = getchar();    // Διαβάζει τον πρώτο χαρακτήρα από την είσοδο
 
         while (ch != EOF) {
@@ -122,7 +193,7 @@ int main(){
                 case '\n':                  // Αν το πλήκτρο Enter πατηθεί
                     SendCommand(buffer, graph);
                     memset(buffer,0,N);         // Καθαρισμός του buffer για την επόμενη εντολή
-                    printf("Dwse Entolh: ");
+                    printf("Give command:");
                     strncat(buffer, ((char*) &ch), 1);
                     break;
                 default:

@@ -78,7 +78,8 @@ struct EdgeList{
     void removeNodes(GraphNode*);       // διαγραφει τους κομβους που περιεχουν ακμες με συγκεκριμενο GraphNode*
 
     // Εκτύπωση της λίστας ακμών
-    void printList();       // Δήλωση της printList 
+    void printListOut(char* idfromnode);       // Δήλωση της printList out
+    void printListIn(char* idtonode);       // Δήλωση της printList in
 };
 
 

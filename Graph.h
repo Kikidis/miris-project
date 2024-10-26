@@ -21,6 +21,9 @@ struct Graph{
 
     void deleteGraphNode(char* id);
 
+    void printAllOutEdges(char* id);
+    void printAllInEdges(char* id);
+
     ~Graph();
 };
 

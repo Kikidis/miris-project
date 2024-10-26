@@ -33,6 +33,23 @@ void Graph::insertEdge(char* to, char* from, double sum, int year, int month, in
 
 }
 
+void Graph::printAllOutEdges(char* id){
+    GraphNodeListNode* node = hashtable->getGraphNode(id);
+    if(node == NULL){
+        return;
+    }
+    GraphNode* gn = node->graphnode;
+    gn->out.printListOut(id);
+}
+
+void Graph::printAllInEdges(char* id){
+    GraphNodeListNode* node = hashtable->getGraphNode(id);
+    if(node == NULL){
+        return;
+    }
+    GraphNode* gn = node ->graphnode;
+    gn->in.printListIn(id);
+}
 
 // Διαγραφει απο ολους τους κομβους του γραφου τις ακμες που ερχονται απο τπν κομβο προς διαγραφη
 // και τις ακμες που στελνουμε στον κομβο προς διαγραφη
@@ -40,7 +57,7 @@ void Graph::insertEdge(char* to, char* from, double sum, int year, int month, in
 void Graph::deleteGraphNode(char* id){
     GraphNodeListNode* deletednode = hashtable->getGraphNode(id);   // ανακτουμε τον κομβο προς διαγραφη 
     GraphNode* deletedgn = deletednode->graphnode;                  // ο κομβος του γραφου του οποιου η παρουσια στις ακμες των αλλων κομβων θελουμε να διαγραψουμε
-    EdgeList in = deletedgn->in;
+    EdgeList &in = deletedgn->in;
 
     EdgeListNode* current = in.head;
     while(current){
@@ -48,7 +65,7 @@ void Graph::deleteGraphNode(char* id){
         current = current->next;
     }
 
-    EdgeList out = deletedgn->out;
+    EdgeList &out = deletedgn->out;
     current = out.head;
     while(current){
         current->edge->node->in.removeNodes(deletedgn);
