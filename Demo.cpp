@@ -1,7 +1,7 @@
 #include "Demo.h"
 
 
-bool isIllegalcmdargs(int argc, char* argv[]){
+bool isIllegalcmdargs(int argc, char* argv[]){      // Ελεγχος των εντολων που δινει ο χρήστης στο terminal, θέλουμε να μας επιστρερψει false
     int i, input = 0, output = 0;
     if (argc<5){
         return true;
